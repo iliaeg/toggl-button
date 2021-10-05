@@ -624,8 +624,23 @@ window.TogglButton = {
       created_with: timeEntry.createdWith || TogglButton.$fullVersion
     };
 
+    timeEntry.projectName = timeEntry.description;
+
     if (timeEntry.projectName !== null && !entry.pid) {
       project = TogglButton.findProjectByName(timeEntry.projectName);
+      if (project == undefined) {
+        let opts = { method: "POST" };
+        opts.payload = {
+            project: {
+              name: timeEntry.projectName,
+              wid: entry.wid,
+              is_private: true,
+            }
+        };
+        await TogglButton.ajax("/projects", opts)
+        await TogglButton.fetchUser();
+        project = TogglButton.findProjectByName(timeEntry.projectName);
+      }
       entry.pid = (project && project.id) || null;
       entry.billable = project && project.billable;
       entry.wid = (project && project.wid) || entry.wid;
