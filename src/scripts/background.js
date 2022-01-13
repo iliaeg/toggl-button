@@ -611,14 +611,17 @@ window.TogglButton = {
       type === 'idle-detection-notification-continue' // Include tags when using Continue-and-discard in idle detection
     );
 
+    const workSpaceId = 5681917;
+    // const lifeSpaceId = 6047764;
+
     entry = {
       start: start.toISOString(),
       stop: null,
       duration: -parseInt(start.getTime() / 1000, 10),
-      description: timeEntry.description || '',
+      description: '',
       pid: timeEntry.pid || timeEntry.projectId || null,
       tid: timeEntry.tid || null,
-      wid: timeEntry.wid || TogglButton.$user.default_wid,
+      wid: workSpaceId,
       tags: shouldIncludeTags ? (timeEntry.tags || null) : null,
       billable: timeEntry.billable || false,
       created_with: timeEntry.createdWith || TogglButton.$fullVersion
